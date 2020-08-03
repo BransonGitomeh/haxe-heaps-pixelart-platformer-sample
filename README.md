@@ -13,9 +13,13 @@ prerequisites to install
 for web releases
 ```
 $ haxe build.js.hxml
+# serve the build dir using a file sever
 ```
+
 
 for native builds
 ```
 $ haxe build.hl.hxml
+# run the .hl file thats created on the build dir
+TODO: add process to build executabes for all platforms
 ```
