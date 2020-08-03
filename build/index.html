@@ -1,19 +1,144 @@
 <html>
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-	<meta property="og:image" content="http://ncannasse.fr/file/ld32/screen.png"/>
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta property="og:image" content="http://ncannasse.fr/file/ld32/screen.png" />
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 	<title>Jungle Hair</title>
+
+	<script src="./pace.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/pace/0.4.1/themes/pace-theme-barber-shop.css">
+	</link>
+
+	<style>
+		.pace {
+			-webkit-pointer-events: none;
+			pointer-events: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+
+		.pace-inactive {
+			display: none;
+		}
+
+		.pace .pace-progress {
+			background: #29d;
+			position: fixed;
+			z-index: 2000;
+			top: 0;
+			right: 100%;
+			width: 100%;
+			height: 2px;
+		}
+
+		.pace .pace-progress-inner {
+			display: block;
+			position: absolute;
+			right: 0px;
+			width: 100px;
+			height: 100%;
+			box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+			opacity: 1.0;
+			-webkit-transform: rotate(3deg) translate(0px, -4px);
+			-moz-transform: rotate(3deg) translate(0px, -4px);
+			-ms-transform: rotate(3deg) translate(0px, -4px);
+			-o-transform: rotate(3deg) translate(0px, -4px);
+			transform: rotate(3deg) translate(0px, -4px);
+		}
+
+		.pace .pace-activity {
+			display: block;
+			position: fixed;
+			z-index: 2000;
+			top: 15px;
+			right: 15px;
+			width: 14px;
+			height: 14px;
+			border: solid 2px transparent;
+			border-top-color: #29d;
+			border-left-color: #29d;
+			border-radius: 10px;
+			-webkit-animation: pace-spinner 400ms linear infinite;
+			-moz-animation: pace-spinner 400ms linear infinite;
+			-ms-animation: pace-spinner 400ms linear infinite;
+			-o-animation: pace-spinner 400ms linear infinite;
+			animation: pace-spinner 400ms linear infinite;
+		}
+
+		@-webkit-keyframes pace-spinner {
+			0% {
+				-webkit-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+
+		@-moz-keyframes pace-spinner {
+			0% {
+				-moz-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+
+			100% {
+				-moz-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+
+		@-o-keyframes pace-spinner {
+			0% {
+				-o-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+
+			100% {
+				-o-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+
+		@-ms-keyframes pace-spinner {
+			0% {
+				-ms-transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+
+			100% {
+				-ms-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+
+		@keyframes pace-spinner {
+			0% {
+				transform: rotate(0deg);
+				transform: rotate(0deg);
+			}
+
+			100% {
+				transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
+	</style>
 </head>
+
 <body style="background-color : #000000; color : #eef">
 
 	<style type="text/css">
 		a {
-			color : #c77;
-			text-decoration : none;
+			color: #c77;
+			text-decoration: none;
 		}
+
 		p {
-			color : #888;
+			color: #888;
 			font-family: 'Open Sans', sans-serif;
 		}
 	</style>
@@ -24,31 +149,35 @@
 		</div>
 
 		<p>
-			Game created for LudumDare #32 in 48 hours by <a href="http://twitter.com/ncannasse">@ncannasse</a>
+			Created for LudumDare #32 in 48 hours by <a href="http://twitter.com/ncannasse">@ncannasse</a>
 		</p>
 		<p>
-			Sources : <a href="http://github.com/ncannasse/ld32">Github</a> | Built with <a href="http://haxe.org">Haxe</a> | Rate <a href="http://www.ludumdare.com/compo/ludum-dare-32/?action=preview&uid=8497">on this page</a>
+			Deployed for Testing on web #01 in 2 hours by <a href="http://twitter.com/BransonGitomeh">@Branie</a>
+		</p>
+		<p>
+			Sources : <a href="http://github.com/ncannasse/ld32">Github</a> | Built with <a
+				href="http://haxe.org">Haxe</a> | Rate <a
+				href="http://www.ludumdare.com/compo/ludum-dare-32/?action=preview&uid=8497">on this page</a>
 		</p>
 
 	</center>
 
-<script type="text/javascript" src="ld32.js"></script>
+	<script type="text/javascript" src="ld32.js"></script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-34409935-1']);
-  _gaq.push(['_trackPageview']);
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34409935-1']);
+		_gaq.push(['_trackPageview']);
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
 
-</script>
+	</script>
 
 </body>
+
 </html>
-
-

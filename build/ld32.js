@@ -10,16 +10,9 @@ function $extend(from, fields) {
 var Data = function() { };
 $hxClasses["Data"] = Data;
 Data.__name__ = "Data";
-Data.load = function(content,allowReload) {
-	if(allowReload == null) {
-		allowReload = false;
-	}
-	Data.root = cdb_Parser.parse(content,false);
-	if(allowReload && Data.mob != null) {
-		Data.mob.reload(Data.root);
-	} else {
-		Data.mob = new cdb_IndexId(Data.root,"mob");
-	}
+Data.load = function(content) {
+	Data.root = cdb_Parser.parse(content);
+	Data.mob = new cdb_IndexId(Data.root,"mob");
 	Data.levelData = new cdb_Index(Data.root,"levelData");
 };
 var EReg = function(r,opt) {
@@ -974,18 +967,6 @@ Reflect.field = function(o,field) {
 		return null;
 	}
 };
-Reflect.fields = function(o) {
-	var a = [];
-	if(o != null) {
-		var hasOwnProperty = Object.prototype.hasOwnProperty;
-		for( var f in o ) {
-		if(f != "__id__" && f != "hx__closures__" && hasOwnProperty.call(o,f)) {
-			a.push(f);
-		}
-		}
-	}
-	return a;
-};
 Reflect.isFunction = function(f) {
 	if(typeof(f) == "function") {
 		return !(f.__name__ || f.__ename__);
@@ -1021,13 +1002,6 @@ Reflect.isEnumValue = function(v) {
 	} else {
 		return false;
 	}
-};
-Reflect.deleteField = function(o,field) {
-	if(!Object.prototype.hasOwnProperty.call(o,field)) {
-		return false;
-	}
-	delete(o[field]);
-	return true;
 };
 var Std = function() { };
 $hxClasses["Std"] = Std;
@@ -1719,7 +1693,7 @@ cdb_Parser.getType = function(str) {
 		}
 	}
 };
-cdb_Parser.parse = function(content,editMode) {
+cdb_Parser.parse = function(content) {
 	if(content == null) {
 		throw new js__$Boot_HaxeError("CDB content is null");
 	}
@@ -1755,59 +1729,6 @@ cdb_Parser.parse = function(content,editMode) {
 				++_g23;
 				a.type = cdb_Parser.getType(a.typeStr);
 				a.typeStr = null;
-			}
-		}
-	}
-	if(editMode) {
-		var _g4 = 0;
-		var _g5 = data.sheets;
-		while(_g4 < _g5.length) {
-			var s1 = _g5[_g4];
-			++_g4;
-			if(s1.separators == null) {
-				var idField = null;
-				var _g41 = 0;
-				var _g51 = s1.columns;
-				while(_g41 < _g51.length) {
-					var c2 = _g51[_g41];
-					++_g41;
-					if(c2.type == cdb_ColumnType.TId) {
-						idField = c2.name;
-						break;
-					}
-				}
-				var indexMap = new haxe_ds_StringMap();
-				var _g6 = 0;
-				var _g7 = s1.lines.length;
-				while(_g6 < _g7) {
-					var i = _g6++;
-					var l = s1.lines[i];
-					var id = Reflect.field(l,idField);
-					if(id != null) {
-						if(__map_reserved[id] != null) {
-							indexMap.setReserved(id,i);
-						} else {
-							indexMap.h[id] = i;
-						}
-					}
-				}
-				var ids = Reflect.field(s1,"separatorIds");
-				var _g8 = [];
-				var _g9 = 0;
-				while(_g9 < ids.length) {
-					var i1 = ids[_g9];
-					++_g9;
-					var tmp;
-					if(typeof(i1) == "number" && ((i1 | 0) === i1)) {
-						tmp = i1;
-					} else {
-						var key = i1;
-						tmp = __map_reserved[key] != null ? indexMap.getReserved(key) : indexMap.h[key];
-					}
-					_g8.push(tmp);
-				}
-				s1.separators = _g8;
-				Reflect.deleteField(s1,"separatorIds");
 			}
 		}
 	}
@@ -2466,7 +2387,17 @@ cdb__$Types_LevelPropsAccess_$Impl_$.getLayer = function(this1,name) {
 };
 var cdb_Index = function(data,name) {
 	this.name = name;
-	this.initSheet(data);
+	var _g = 0;
+	var _g1 = data.sheets;
+	while(_g < _g1.length) {
+		var s = _g1[_g];
+		++_g;
+		if(s.name == name) {
+			this.all = s.lines;
+			this.sheet = s;
+			break;
+		}
+	}
 	if(this.sheet == null) {
 		throw new js__$Boot_HaxeError("'" + name + "' not found in CDB data");
 	}
@@ -2474,110 +2405,45 @@ var cdb_Index = function(data,name) {
 $hxClasses["cdb.Index"] = cdb_Index;
 cdb_Index.__name__ = "cdb.Index";
 cdb_Index.prototype = {
-	initSheet: function(data) {
-		var _g = 0;
-		var _g1 = data.sheets;
-		while(_g < _g1.length) {
-			var s = _g1[_g];
-			++_g;
-			if(s.name == this.name) {
-				this.all = s.lines;
-				this.sheet = s;
-				if(s.props.hasIndex) {
-					var _g2 = 0;
-					var _g11 = this.all.length;
-					while(_g2 < _g11) {
-						var i = _g2++;
-						this.all[i].index = i;
-					}
-				}
-				break;
-			}
-		}
-	}
-	,__class__: cdb_Index
+	__class__: cdb_Index
 };
 var cdb_IndexId = function(data,name) {
 	cdb_Index.call(this,data,name);
+	this.byId = new haxe_ds_StringMap();
+	this.byIndex = [];
+	var _g = 0;
+	var _g1 = this.sheet.columns;
+	while(_g < _g1.length) {
+		var c = _g1[_g];
+		++_g;
+		if(c.type._hx_index == 0) {
+			var cname = c.name;
+			var _g2 = 0;
+			var _g11 = this.sheet.lines;
+			while(_g2 < _g11.length) {
+				var a = _g11[_g2];
+				++_g2;
+				var id = Reflect.field(a,cname);
+				if(id != null && id != "") {
+					var _this = this.byId;
+					var value = a;
+					if(__map_reserved[id] != null) {
+						_this.setReserved(id,value);
+					} else {
+						_this.h[id] = value;
+					}
+					this.byIndex.push(a);
+				}
+			}
+			break;
+		}
+	}
 };
 $hxClasses["cdb.IndexId"] = cdb_IndexId;
 cdb_IndexId.__name__ = "cdb.IndexId";
 cdb_IndexId.__super__ = cdb_Index;
 cdb_IndexId.prototype = $extend(cdb_Index.prototype,{
-	initSheet: function(data) {
-		cdb_Index.prototype.initSheet.call(this,data);
-		this.byId = new haxe_ds_StringMap();
-		this.byIndex = [];
-		var _g = 0;
-		var _g1 = this.sheet.columns;
-		while(_g < _g1.length) {
-			var c = _g1[_g];
-			++_g;
-			if(c.type._hx_index == 0) {
-				var cname = c.name;
-				var _g2 = 0;
-				var _g11 = this.sheet.lines;
-				while(_g2 < _g11.length) {
-					var a = _g11[_g2];
-					++_g2;
-					var id = Reflect.field(a,cname);
-					if(id != null && id != "") {
-						var _this = this.byId;
-						var value = a;
-						if(__map_reserved[id] != null) {
-							_this.setReserved(id,value);
-						} else {
-							_this.h[id] = value;
-						}
-						this.byIndex.push(a);
-					}
-				}
-				break;
-			}
-		}
-	}
-	,reload: function(data) {
-		var oldId = this.byId;
-		var oldIndex = this.byIndex;
-		this.initSheet(data);
-		var id = this.byId.keys();
-		while(id.hasNext()) {
-			var id1 = id.next();
-			var oldObj = __map_reserved[id1] != null ? oldId.getReserved(id1) : oldId.h[id1];
-			if(oldObj == null) {
-				continue;
-			}
-			var _this = this.byId;
-			var newObj = __map_reserved[id1] != null ? _this.getReserved(id1) : _this.h[id1];
-			var fields = Reflect.fields(oldObj);
-			var _g = 0;
-			var _g1 = Reflect.fields(newObj);
-			while(_g < _g1.length) {
-				var f = _g1[_g];
-				++_g;
-				oldObj[f] = Reflect.field(newObj,f);
-				HxOverrides.remove(fields,f);
-			}
-			var _g2 = 0;
-			while(_g2 < fields.length) {
-				var f1 = fields[_g2];
-				++_g2;
-				Reflect.deleteField(oldObj,f1);
-			}
-			var idx = this.byIndex.indexOf(newObj);
-			if(idx >= 0) {
-				this.byIndex[idx] = oldObj;
-			}
-			this.sheet.lines[this.sheet.lines.indexOf(newObj)] = oldObj;
-			var _this1 = this.byId;
-			if(__map_reserved[id1] != null) {
-				_this1.setReserved(id1,oldObj);
-			} else {
-				_this1.h[id1] = oldObj;
-			}
-		}
-	}
-	,__class__: cdb_IndexId
+	__class__: cdb_IndexId
 });
 var ent_Entity = function(k,x,y) {
 	this.acc = 0.;
