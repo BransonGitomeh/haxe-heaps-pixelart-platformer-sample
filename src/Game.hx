@@ -29,7 +29,9 @@ class Game extends hxd.App {
 		initFrames();
 		entities = [];
 		event = new hxd.WaitEvent();
-		s2d.setFixedSize(256, 240);
+		// s2d.setFixedSize(256, 240);
+		s2d.setFixedSize(556, 240);
+		// s2d.Stretch(256, 240);
 		level = new Level();
 		level.init();
 
@@ -45,7 +47,7 @@ class Game extends hxd.App {
 		pad = hxd.Pad.createDummy();
 		hxd.Pad.wait(function(p) this.pad = p);
 
-		hxd.Res.music.play(true);
+		// hxd.Res.music.play(true);
 
 		parts = new h2d.SpriteBatch(hxd.Res.mobs.toTile());
 		level.root.add(parts, 1);
@@ -203,7 +205,7 @@ class Game extends hxd.App {
 		var perlin = new hxd.Perlin();
 		var f = Math.pow(0.95, dt);
 		for( p in envParts.getElements() ) {
-			var p = Std.instance(p, Part);
+			var p = Std.downcast(p, Part);
 			p.time += dt;
 			p.alpha = p.alpha * f + (1 - f) * ((Math.sin(p.time * 0.1) + 1) * 0.25 + 0.5);
 			p.y += Math.cos(p.time * 0.03) * 0.04 * dt;
@@ -327,7 +329,7 @@ class Game extends hxd.App {
 			inst.level.init();
 		});
 		#else
-		hxd.Res.initEmbed({compressSounds:true});
+		hxd.Res.initEmbed();
 		#end
 		Data.load(hxd.Res.data.entry.getBytes().toString());
 		new Game();

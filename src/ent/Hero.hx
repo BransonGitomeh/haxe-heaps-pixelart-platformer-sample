@@ -300,7 +300,7 @@ class Hero extends Entity {
 						}
 						game.level.startX = x;
 						game.level.startY = y;
-						Std.instance(e, Npc).talk(text);
+						Std.downcast(e, Npc).talk(text);
 						return;
 					default:
 					}

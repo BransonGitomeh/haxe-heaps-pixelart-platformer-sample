@@ -1,5 +1,5 @@
 -cp src
--js ld32.js
+-js build/ld32.js
 -main Game
 -lib heaps
 -lib castle
