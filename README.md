@@ -21,5 +21,6 @@ for native builds
 ```
 $ haxe build.hl.hxml
 # run the .hl file thats created on the build dir
-TODO: add process to build executabes for all platforms
 ```
+
+TODO: add process to build executabes for all platforms
