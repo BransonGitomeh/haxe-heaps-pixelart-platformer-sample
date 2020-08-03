@@ -2,6 +2,6 @@
     "scripts": {
         "dev":"export PORT=3000 && npx livereload build -p $PORT",
         "start":"npx http-server build -p $PORT",
-        "postinstall": "haxelib install all && haxe build.hxml"
+        "postinstall": "yes | haxelib install all && haxe build.hxml"
     }
 }
