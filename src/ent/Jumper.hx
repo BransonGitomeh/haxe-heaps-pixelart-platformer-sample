@@ -51,7 +51,7 @@ class Jumper extends Entity {
 				push(spr.scaleX, -0.35);
 			}
 		case Jump:
-			var p = Math.pow(1.9, dt);
+			var p = Math.pow(3.9, dt);
 			spr.scaleY = spr.scaleY * p + (1 - p);
 		default:
 		}

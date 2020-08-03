@@ -1,0 +1,9 @@
+-cp src
+-hl build/ld32.hl
+-D windowSize=3200x1800
+-D resourcesPath=res
+-main Game
+-lib heaps
+-lib castle
+-lib hlsdl
+-dce full
