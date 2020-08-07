@@ -1,7 +1,8 @@
-/ld32.swf
+*.swf
 
 /log.txt
 
-/ld32.hl
-/ld32.js
+*.hl
+*.js
 /res/.tmp
+

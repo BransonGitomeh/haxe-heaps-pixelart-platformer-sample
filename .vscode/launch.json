@@ -8,8 +8,9 @@
 			"type": "chrome",
 			"request": "launch",
 			"name": "Launch Chrome against localhost",
-			"url": "file://${workspaceFolder}/index.html",
+			"url": "file://${workspaceFolder}/build/index.html",
 			"webRoot": "${workspaceFolder}",
+			"runtimeExecutable": "/usr/bin/google-chrome-stable",
 			"preLaunchTask": {
 				"type" : "haxe",
 				"args" : "active configuration"

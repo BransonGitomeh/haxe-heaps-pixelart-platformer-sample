@@ -1,7 +1,9 @@
 {
     "scripts": {
-        "dev":"export PORT=3000 && npx http-server build -p $PORT",
-        "start":"npx http-server build -p $PORT",
+        "run-hl": "haxe build.hl.hxml && hl build/ld32.hl",
+        "dev-hl": "nodemon -e hx --exec \"yarn run-hl\"",
+        "dev-js": "export PORT=3000 && haxe build.js.hxml && npx http-server build -p $PORT",
+        "start": "npx http-server build -p $PORT",
         "postinstall": "yes | haxelib install all && haxe build.hxml"
     }
 }
